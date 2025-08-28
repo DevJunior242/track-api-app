@@ -59,13 +59,12 @@ class BudgetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Budget $budget)
     {
-        $budget = Budget::where('user_id', Auth::id())->find($id);
+       if($budget->user_id !== Auth::id()){
+        return response()->json(['message' => 'non autorisé'], 403);
 
-        if (!$budget) {
-            return response()->json(['message' => 'Budget introuvable'], 404);
-        }
+       }
 
         $budget->delete();
         return response()->json(['message' => 'Budget supprimé avec succès'], 200);
