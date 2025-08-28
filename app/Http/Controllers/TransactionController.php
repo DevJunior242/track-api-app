@@ -17,7 +17,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('user_id', Auth::id())->get();
+        $transactions = Transaction::where('user_id', Auth::id())->get();
 
         return response()->json($transactions);
     }
@@ -155,7 +155,7 @@ class TransactionController extends Controller
         $request->validate([
             'type' => 'required|string|in:revenue,depense',
             'category' => 'required|string',
-            'amount' => 'required|numeric[min:0',
+            'amount' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'transaction_date' => 'required|date',
         ]);
