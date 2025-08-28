@@ -128,16 +128,16 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        if (!$transaction) {
+          if ($transaction->user_id !== Auth::id()) {
             return response()->json([
-                'message' => 'Transaction not found',
-                'transaction' => null
-            ], 404);
+                'message' => 'forbidden',
+
+            ], 403);
         }
         return response()->json([
             'message' => 'transaction found',
             'transaction' => $transaction
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -165,7 +165,7 @@ class TransactionController extends Controller
         return response()->json([
             'message' => 'Transaction updated successfully',
             'transaction' => $transaction
-        ], 201);
+        ], 200);
     }
 
     /**
